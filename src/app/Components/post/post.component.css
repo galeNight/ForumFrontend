@@ -1,0 +1,145 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: aliceblue;
+    min-height: 100%;
+}
+
+.post-background{
+    background-color: white;
+    box-shadow: 0px 0.9px 4px black;
+    margin-top: 25px;
+    border-radius: 15px;
+
+    min-height: 335px;
+    max-height: 525px;
+    width: 800px; /* Default width */
+    min-width: 200px; /* Minimum width */
+    max-width: 850px; /* Maximum width */
+    
+    position: relative;
+    
+}
+
+@media screen and (max-width: 800px) {
+    .post-background {
+        width: 100%; 
+    }
+}
+
+.subtitle {
+    font-size: 14px;
+    text-decoration: underline;
+    color: black;
+}
+
+.post-text{
+    margin: 5px;
+    margin-bottom: 50px;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.post-bottom{
+    display: inline-block;
+    position: absolute;
+    bottom: 5px;
+    margin-left: 5px;
+}
+
+.likes{
+    display: inline-block;
+    margin-right: 4px;
+    margin-left: 4px;
+    margin-bottom: 5px;
+    color: rgb(57, 189, 233);
+}
+
+.dislikes{
+    display: inline-block;
+    margin-right: 4px;
+    margin-bottom: 5px;
+    color: rgb(212, 105, 123);
+}
+
+button:hover{
+    background-color: rgb(215, 221, 226);
+    border-width: 2px;
+    border-radius: 4px;
+}
+
+.comment-container{
+    position: relative;
+}
+.comment-background{
+    padding: 1px; /* If i dont have it here, the margin wont work right for that inside. */
+    background-color: rgba(235, 232, 232, 0.363);
+    box-shadow: 0px 0.9px 4px black;
+    margin-top: 25px;
+    border-radius: 15px;
+
+    min-height: 155px;
+    max-height: 825px;
+
+    min-width: 780px;
+    max-width: 780px;
+    
+    position: relative;
+}
+.comment-background-reply{
+    border-radius: 15px 15px 0px 15px;
+}
+
+.comment-text{
+    background-color: rgba(179, 176, 176, 0.226);
+    border-radius: 2px;
+    margin: 5px;
+    margin-bottom: 53px;
+    max-height: 175px;
+    overflow-y: auto; /* Enables vertical scrolling but only shows it when it overflows*/
+}
+.comment-bottom{
+    position: absolute;
+    bottom: 5px;
+    margin-left: 5px;
+}
+
+.comment-background-reply{
+    border-radius: 15px 15px 0px 15px;
+}
+
+.reply-background{
+    padding: 1px; /* If i dont have it here, the margin wont work right for that inside. */
+    background-color: rgba(235, 232, 232, 0.363);
+    box-shadow: 0px 0.9px 4px black;
+
+    min-height: 135px;
+    max-height: 625px;
+
+    margin-left: 10px;
+    min-width: 740px;
+    max-width: 740px;
+    position: relative;
+
+    margin-left: 40px;
+}
+.reply-text{
+    background-color: rgba(179, 176, 176, 0.226);
+    border-radius: 2px;
+    margin: 5px;
+    margin-bottom: 45px;
+    max-height: 195px;
+    overflow-y: auto; /* Enables vertical scrolling but only shows it when it overflows*/
+}
+
+.reply-bottom{
+    position: absolute;
+    bottom: 2px;
+    margin-left: -12px;
+}
+
+.reply-background-end{
+    border-radius: 0px 0px 15px 15px;
+    margin-bottom: 3px;
+}

@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="profile-background">
+        <div class="profile-details">
+            @if(profile){
+                <div class="profile-picture"></div>
+                <div style="margin-top: 40px;">
+                    <p><strong>UserName:</strong> {{ profile.userName }}</p>
+                    <p><strong>Full Name:</strong> {{ profile.firstName }} {{profile.lastName}}</p>
+                    <p><strong>User ID:</strong> {{ profile.userID }}</p>
+                    <p><strong>Join Date:</strong> {{ profile.joinDate | date: 'longDate' }}</p>
+                </div>
+            }
+        </div>
+        <button class="profile-edit-button" mat-raised-button color="primary">Edit Profile</button>
+    </div>
+</div>

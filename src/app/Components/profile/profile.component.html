@@ -1,0 +1,85 @@
+@if(!EditBtn){
+    <div class="container">
+        <div class="profile-background">
+            <div class="profile-details">
+                @if(profile){
+                    <div class="profile-picture"></div>
+                    <div style="margin-top: 40px;">
+                        @if(isPrivateProfile){
+                            <h1>Private</h1>
+                        }
+                        <p><strong>UserName:</strong> {{ profile.userName }}</p>
+                        <p><strong>Full Name:</strong> {{ profile.firstName }} {{profile.lastName}}</p>
+                        <p><strong>User ID:</strong> {{ profile.userID }}</p>
+                        <p><strong>Join Date:</strong> {{ profile.joinDate | date: 'longDate' }}</p>
+                    </div>
+                }
+            </div>
+            @if(isPrivateProfile){
+                <button class="profile-edit-button" mat-raised-button color="primary"  (click)="switchEditBtn()">Edit Profile</button>
+            }
+        </div>
+    </div>
+}
+
+@else{
+    @if(profile){
+        <div class="container">
+            <div class="profile-background">
+                <button mat-raised-button class="returnbtn" color="primary" (click)="this.EditBtn = !this.EditBtn">Return</button>
+                <h1 class="side">Edit Profile</h1>
+                <h2 class="side">Public</h2>
+                <div class="edit-flex-container">
+                    <div class="edit-flex-item side">
+                        <mat-form-field appearance="outline">
+                            <mat-label>First Name</mat-label>
+                            <input matInput placeholder="Your first name" [(ngModel)]="profile.firstName">
+                        </mat-form-field>
+                    </div>
+                    <div class="edit-flex-item side">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Last Name</mat-label>
+                            <input matInput placeholder="Your last name" [(ngModel)]="profile.lastName">
+                        </mat-form-field>
+                    </div>
+                    <div class="edit-flex-item side">
+                        <mat-form-field appearance="outline" >
+                            <mat-label>UserName</mat-label>
+                            <input  matInput placeholder="Your username" [(ngModel)]="profile.userName">
+                        </mat-form-field>
+                    </div>
+                    @if(notVerifedForPrivateDetails === true){
+                        <button mat-raised-button color="primary" (click)="showDialogue()" class="side" style="margin-bottom: 10px;">Unlock Panel</button>
+                    }
+                </div>
+                <mat-accordion>
+                    <mat-expansion-panel hideToggle [disabled]="notVerifedForPrivateDetails" class="side">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h2>Private Information</h2>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-panel-description>
+                            @if(privateUser){
+                                <div class="edit-flex-container">
+                                    <div class="edit-flex-item">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Email</mat-label>
+                                            <input matInput placeholder="Example@Mail.com" [(ngModel)]="privateUser.userEmail">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="edit-flex-item">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Password</mat-label>
+                                            <input matInput placeholder="Password" [(ngModel)]="privateUser.userPassword">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            }
+                          </mat-panel-description>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    }
+}

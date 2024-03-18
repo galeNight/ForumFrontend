@@ -1,0 +1,67 @@
+<div class="container">
+    @if(!showRegisterScreen){
+        <div>
+            <h1 style="text-align: center;">Login</h1>
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="MyEmail@example.com" [(ngModel)]="userAcc.userEmail">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="outline">
+                    <mat-label>password</mat-label>
+                    <input type="password" matInput placeholder="Passw0rd" [(ngModel)]="userAcc.userPassword">
+                </mat-form-field>
+            </div>
+            <div class="buttons">
+                <button  mat-raised-button color="primary" (click)="toggleRegister()">Create new account?</button>
+                
+                <button style="margin-top: 10px;" type="submit" mat-raised-button color="primary" (click)="login()">Submit</button>
+            </div>
+        </div>   
+    }
+    @else {
+        <div>
+            <h1 style="text-align: center;">Register account</h1>
+            <div class="register-forms">
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="MyEmail@example.com" >
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>User Name</mat-label>
+                    <input matInput placeholder="Your username">
+                </mat-form-field>
+            </div>
+            <div class="register-forms">
+                <mat-form-field appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input matInput placeholder="Your first name" >
+                </mat-form-field>
+    
+                <mat-form-field appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput placeholder="Your last name" >
+                </mat-form-field>
+            </div>
+            <div class="register-forms">
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input type="password" matInput placeholder="Passw0rd" >
+                </mat-form-field>
+    
+                <mat-form-field appearance="outline">
+                    <mat-label>Confirm Password</mat-label>
+                    <input type="password" matInput placeholder="Confirm Passw0rd" >
+                </mat-form-field>
+            </div>
+            <div class="buttons">
+                <button (click)="toggleRegister()" mat-raised-button color="primary" >Already have an account?</button>
+                
+                <button style="margin-top: 10px;" type="submit" mat-raised-button color="primary">Register</button>
+            </div>
+        </div>
+    }
+</div>

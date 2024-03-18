@@ -1,0 +1,21 @@
+<div class="top-menu">
+    <h1>{{title}}</h1>
+    <button mat-icon-button  (click)="MySideNav.toggle()" class="top-activate-side-menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <div class="top-activate-login">
+        @if(!isLoginComponent){
+            <button mat-raised-button (click)="navigateToLogin()">login</button>
+        }
+    </div>
+</div>
+
+<mat-sidenav-container class="sidenav">
+    <mat-sidenav #MySideNav mode="side" position="start">
+        <h1>Test From The Side</h1>
+    </mat-sidenav>
+      
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

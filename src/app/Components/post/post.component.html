@@ -1,0 +1,105 @@
+@if (postDetails) {
+    <div class="container">
+        <div class=" post-background">
+            <div style="margin: 20px;">
+                <h1><b>Welcome to the New Members!</b></h1>
+                <p class="subtitle"><b>Topic: {{postDetails.topic?.topicName}}</b> Posted by <b>{{postDetails.userProfile?.userName}}</b> on {{postDetails.postCreated | date}}</p>
+                <div class="post-text">
+                    <p>{{postDetails.postContent}}</p>
+                </div>
+            </div>
+            <div class="post-bottom">
+                
+                <div class="likes">+{{ getTotalLikes() }}</div>
+                <button aria-label="Like" style="margin-right: 10px;">
+                  <mat-icon color="primary">thumb_up</mat-icon>
+                </button>
+                <div class="dislikes">-{{getTotaDislLikes()}}</div>
+                <button aria-label="Dislike">
+                    <mat-icon color="warn">thumb_down</mat-icon>
+                </button>
+                <button aria-label="Comments" style="margin-left: 10px;" (click)="toggleCommentsForPost()">
+                    <mat-icon>comment</mat-icon>
+                </button>
+            </div>
+        </div>
+        @if(commentSectionIsOpened){
+            @for(comment of comments; track comment.commentID;){
+                <div class="comment-container">
+                    <div class="comment-background" [ngClass]="{'comment-background-reply': comment.replies && comment.replies.length > 0}">
+                        <div style="margin: 20px;" >
+                            <p class="subtitle"> Posted by <b>Cookster</b> on Feb 22, 2024</p>
+                            <div class="comment-text">
+                                <p>{{comment.commentID}} {{comment.created | date}}</p>
+                            </div>
+                        </div>
+                        <div class="comment-bottom">
+                            <button aria-label="Like" style="margin: 10px;">
+                                <mat-icon color="primary">thumb_up</mat-icon>
+                            </button>
+                            <button aria-label="Dislike">
+                                <mat-icon color="warn">thumb_down</mat-icon>
+                            </button>
+                            <button aria-label="Comments" style="margin-left: 10px;" (click)="toggleRepliesForComment(comment)">
+                                <mat-icon>reply</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    @if(this.openedReplies.has(comment.commentID) ){
+                        @for(reply of comment.replies; track reply.replyID; let lastReply = $last){
+                            <div class="reply-background" [ngClass]="{'reply-background-end' : lastReply}" >
+                                <div style="margin: 10px;">
+                                    <p class="subtitle"> Posted by <b>Cookster</b> on Feb 22, 2024</p>
+                                    <div class="reply-text">
+                                        {{reply.replyContent}}
+                                    </div>
+                                    <div class="reply-bottom">
+                                        <button aria-label="Like" style="margin: 10px;">
+                                            <mat-icon color="primary">thumb_up</mat-icon>
+                                        </button>
+                                        <button aria-label="Dislike">
+                                            <mat-icon color="warn">thumb_down</mat-icon>
+                                        </button>
+                                        <button aria-label="Comments" style="margin-left: 10px;">
+                                            <mat-icon>reply</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    
+                </div>
+         
+             }
+        }
+    </div>
+
+
+ }
+ @else {
+    <!--Backup-->
+    <div class="container">
+        <div class=" post-background">
+            <div style="margin: 20px;">
+                <h1><b>Welcome to the New Members!</b></h1>
+                <p class="subtitle"> <b>Topic: Introductions.</b> Posted by <b>Cookster</b> on Feb 22, 2024</p>
+                <div class="post-text">
+                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a purus pulvinar, efficitur massa sed, consectetur lacus. Pellentesque laoreet dolor ex, accumsan dignissim lacus lobortis eget. Etiam id elit augue. Nam ac sapien varius, ultrices ante vitae, lobortis enim. Morbi quis interdum ante. Quisque convallis mattis cursus. Ut ornare nunc at hendrerit iaculis. Morbi rhoncus ac nisl ac vulputate.</p>
+                    <p>Pellentesque efficitur massa nibh, id consectetur risus luctus sit amet. Quisque nulla dui, vehicula id eleifend ut, finibus sed justo. Nulla tempus ex quis felis accumsan vehicula. Maecenas hendrerit mi neque, et ultrices dolor suscipit ac. Vestibulum semper orci in lacus blandit faucibus. Nulla eu lectus lorem. Nunc rhoncus eleifend mi, ut mollis mauris convallis dignissim. Phasellus pellentesque porta interdum. Nam faucibus dictum posuere.</p>
+                </div>            
+            </div>
+            <div class="bottom">
+                <button aria-label="Like" style="margin: 10px;">
+                    <mat-icon color="primary">thumb_up</mat-icon>
+                </button>
+                <button aria-label="Dislike">
+                    <mat-icon color="warn">thumb_down</mat-icon>
+                </button>
+                <button aria-label="Comments" style="margin-left: 10px;">
+                    <mat-icon>comment</mat-icon>
+                </button>
+            </div>
+        </div>   
+    </div>
+ }

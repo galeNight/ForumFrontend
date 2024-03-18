@@ -1,0 +1,47 @@
+
+<div class="container">
+    @for(post of recentPosts; track post.postID){
+        <div class="post-background" >
+            <div class="post-body">
+                <h1>{{ post.title }}</h1>
+                <p class="post-text-subtitle"><b>Topic: {{post.topic?.topicName}}.</b> Posted by <b>{{ post.userProfile?.userName }}</b> on {{ post.postCreated | date }}</p>
+                <div class="post-text">
+                    <p>{{ post.postContent}}</p>
+                </div>
+                <div class="post-bottom Gap">
+                    <button mat-button class="like-btn">
+                        <mat-icon>thumb_up</mat-icon>
+                        LIKE
+                    </button>
+                    <button mat-button class="read-more-btn" (click)="navigateToPost(post.postID)">
+                        <mat-icon>read_more</mat-icon>
+                        READ MORE
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    }
+    <!-- Test Data
+    <div class="post-background">
+        <div class="post-body">
+            <h1>Hello from the the futures</h1>
+            <p class="post-text-subtitle">Cookstar</p>
+            <div class="post-text">
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem est reiciendis deserunt, dicta molestias architecto molestiae tempore doloribus odit deleniti pariatur iusto officiis itaque, debitis sed? Nisi nulla nemo eum!</p>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem est reiciendis deserunt, dicta molestias architecto molestiae tempore doloribus odit deleniti pariatur iusto officiis itaque, debitis sed? Nisi nulla nemo eum!</p>
+            </div>
+            <div class="post-bottom Gap">
+                <button mat-button class="like-btn">
+                    <mat-icon>thumb_up</mat-icon>
+                    LIKE
+                </button>
+                <button mat-button class="read-more-btn">
+                    <mat-icon>read_more</mat-icon>
+                    READ MORE
+                </button>
+            </div>
+        </div>
+    </div>
+        -->
+</div>

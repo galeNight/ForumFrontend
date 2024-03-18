@@ -1,0 +1,12 @@
+<p>edit-window works!</p>
+<h2 mat-dialog-title>Write Password to access personal info</h2>
+<mat-dialog-content>
+  <mat-form-field appearance="outline" style="margin-top: 5px;">
+    <mat-label>Your Password</mat-label>
+    <input matInput [(ngModel)]="password" placeholder="Password">
+</mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="warn"  (click)="CancelAction()">Return?</button>
+  <button mat-raised-button color="primary" (click)="confirmAction()" cdkFocusInitial>Confirm</button>
+</mat-dialog-actions>
