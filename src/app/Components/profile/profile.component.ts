@@ -29,7 +29,7 @@ export class ProfileComponent {
   route = inject(ActivatedRoute); 
   router: Router = inject(Router)
   dialog: MatDialog = inject(MatDialog)
-
+  
   authService: AuthService = inject(AuthService)
 
   isTokenValid: boolean = false;
