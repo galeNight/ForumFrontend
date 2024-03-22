@@ -4,7 +4,7 @@ export interface Reply {
     postID : number
     commentID : number
     userID : number
-    likeStats : LikeStats
+    likes? : LikeStats
     replyContent : string
     created : Date
 }

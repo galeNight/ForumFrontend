@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Post } from '../Models/Post';
 import { environment } from '../../environments/environment';
-import { Observable, firstValueFrom } from 'rxjs';
+import { Observable, catchError, firstValueFrom, throwError } from 'rxjs';
 import { Reply } from '../Models/Reply';
 import { PostComment } from '../Models/Comment';
 import {Like, postType} from '../Models/Enums'

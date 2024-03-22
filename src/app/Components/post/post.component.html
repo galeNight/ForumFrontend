@@ -9,7 +9,6 @@
                 </div>
             </div>
             <div class="post-bottom">
-                
                 <div class="likes">+{{postLikeStatus.totalLikes}}</div>
                 <button aria-label="Like" style="margin-right: 10px;" [ngClass]="{'liked-background': postLikeStatus.pressedLikeButton == Like.LIKE}"
                 (click)="TestlikeOrDislike(selectedId,postType.POST,Like.LIKE,postLikeStatus)" [disabled]="disabledLikes">
@@ -36,7 +35,7 @@
                             </div>
                         </div>
                         <div class="comment-bottom">
-                            <div class="likes">+{{comments.likes?.totalLikes}}</div>
+                            <div class="likes">+{{comment.likes?.totalLikes}}</div>
                             <button aria-label="Like" style="margin: 10px;"[ngClass]="{'liked-background': comment.likes?.pressedLikeButton == Like.LIKE}"
                             (click)="TestlikeOrDislike(comment.commentID,postType.COMMENT,Like.LIKE,comment.likes)" [disabled]="disabledLikes">
                                 <mat-icon color="primary">thumb_up</mat-icon>
