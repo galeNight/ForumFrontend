@@ -14,7 +14,8 @@ export class AuthService {
   validateUrl: string = `${environment.apiBaseUrl}/Auth/validateUserId`;
   accountDetailsUrl: string = `${environment.apiBaseUrl}/Auth/account-details`;
   passwordCheckerUrl: string = `${environment.apiBaseUrl}/Auth/password-checker`;
-  http: HttpClient = inject(HttpClient)
+  http: HttpClient = inject(HttpClient)  constructor(private http: HttpClient) {}
+
 
   // Send userAccount to server which then test if it
   login(userAcc : userAccount){
