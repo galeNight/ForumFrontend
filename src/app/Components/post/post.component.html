@@ -10,12 +10,14 @@
             </div>
             <div class="post-bottom">
                 
-                <div class="likes">+{{ getTotalLikes() }}</div>
-                <button aria-label="Like" style="margin-right: 10px;">
+                <div class="likes">+{{postLikeStatus.totalLikes}}</div>
+                <button aria-label="Like" style="margin-right: 10px;" [ngClass]="{'liked-background': postLikeStatus.pressedLikeButton == Like.LIKE}"
+                (click)="TestlikeOrDislike(selectedId,postType.POST,Like.LIKE,postLikeStatus)" [disabled]="disabledLikes">
                   <mat-icon color="primary">thumb_up</mat-icon>
                 </button>
-                <div class="dislikes">-{{getTotaDislLikes()}}</div>
-                <button aria-label="Dislike">
+                <div class="dislikes">-{{postLikeStatus.totalDislikes}}</div>
+                <button aria-label="Dislike" [ngClass]="{'disliked-background': postLikeStatus.pressedLikeButton == Like.DISLIKE}"
+                (click)="TestlikeOrDislike(selectedId,postType.POST,Like.DISLIKE,postLikeStatus)" [disabled]="disabledLikes">
                     <mat-icon color="warn">thumb_down</mat-icon>
                 </button>
                 <button aria-label="Comments" style="margin-left: 10px;" (click)="toggleCommentsForPost()">
@@ -28,16 +30,20 @@
                 <div class="comment-container">
                     <div class="comment-background" [ngClass]="{'comment-background-reply': comment.replies && comment.replies.length > 0}">
                         <div style="margin: 20px;" >
-                            <p class="subtitle"> Posted by <b>Cookster</b> on Feb 22, 2024</p>
+                            <p class="subtitle"> Posted by <b>Cookster</b> on {{comment.created | date}} </p>
                             <div class="comment-text">
-                                <p>{{comment.commentID}} {{comment.created | date}}</p>
+                                <p>{{comment.commentContent}}</p>
                             </div>
                         </div>
                         <div class="comment-bottom">
-                            <button aria-label="Like" style="margin: 10px;">
+                            <div class="likes">+{{comments.likes?.totalLikes}}</div>
+                            <button aria-label="Like" style="margin: 10px;"[ngClass]="{'liked-background': comment.likes?.pressedLikeButton == Like.LIKE}"
+                            (click)="TestlikeOrDislike(comment.commentID,postType.COMMENT,Like.LIKE,comment.likes)" [disabled]="disabledLikes">
                                 <mat-icon color="primary">thumb_up</mat-icon>
                             </button>
-                            <button aria-label="Dislike">
+                            <div class="dislikes">-{{comment.likes?.totalDislikes}}</div>
+                            <button aria-label="Dislike" [ngClass]="{'disliked-background': comment.likes?.pressedLikeButton == Like.DISLIKE}"
+                            (click)="TestlikeOrDislike(comment.commentID,postType.COMMENT,Like.DISLIKE,comment.likes)" [disabled]="disabledLikes">
                                 <mat-icon color="warn">thumb_down</mat-icon>
                             </button>
                             <button aria-label="Comments" style="margin-left: 10px;" (click)="toggleRepliesForComment(comment)">
@@ -54,10 +60,14 @@
                                         {{reply.replyContent}}
                                     </div>
                                     <div class="reply-bottom">
-                                        <button aria-label="Like" style="margin: 10px;">
+                                        <div class="likes">+{{reply.likes?.totalLikes}}</div>
+                                        <button aria-label="Like" style="margin: 10px;" [ngClass]="{'liked-background': reply.likes?.pressedLikeButton == Like.LIKE}"
+                                        (click)="TestlikeOrDislike(reply.replyID,postType.REPLY,Like.LIKE,reply.likes)" [disabled]="disabledLikes">
                                             <mat-icon color="primary">thumb_up</mat-icon>
                                         </button>
-                                        <button aria-label="Dislike">
+                                        <div class="dislikes">-{{reply.likes?.totalDislikes}}</div>
+                                        <button aria-label="Dislike" [ngClass]="{'disliked-background': reply.likes?.pressedLikeButton == Like.DISLIKE}"
+                                        (click)="TestlikeOrDislike(reply.replyID,postType.REPLY,Like.DISLIKE,reply.likes)" [disabled]="disabledLikes">
                                             <mat-icon color="warn">thumb_down</mat-icon>
                                         </button>
                                         <button aria-label="Comments" style="margin-left: 10px;">
@@ -68,9 +78,7 @@
                             </div>
                         }
                     }
-                    
                 </div>
-         
              }
         }
     </div>

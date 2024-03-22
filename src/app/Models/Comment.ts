@@ -1,3 +1,4 @@
+import { LikeStats } from "./Like"
 import { Post } from "./Post"
 import { Reply } from "./Reply"
 import { userProfile } from "./userProfile"
@@ -9,6 +10,7 @@ export interface PostComment {
     post? : Post
     userID : number
     profile? : userProfile
+    likes? : LikeStats
     replies? : Reply[]
     created : Date
 }

@@ -1,17 +1,18 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Post } from '../Models/Post';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { Reply } from '../Models/Reply';
 import { PostComment } from '../Models/Comment';
-import { postLike } from '../Models/Like';
+import {Like, postType} from '../Models/Enums'
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
+
   postUrl : string = environment.apiBaseUrl+"/Post"
   commentUrl  : string = environment.apiBaseUrl+"/Comment"
   replyUrl : string = environment.apiBaseUrl+"/Reply"
@@ -30,15 +31,7 @@ export class PostService {
     return this.http.get<PostComment[]>(`${this.commentUrl}/post/${postId}`);
   }
 
-  getRepliesForSpecficComment(commentId: number){
+  getRepliesForSpecificComment(commentId: number){
     return this.http.get<Reply[]>(`${this.replyUrl}/comment/${commentId}`);
-  }
-
-  getPostLikesForPost(postId: number){
-    return this.http.get<postLike[]>(`${this.postUrl}/get-likes/${postId}`);
-  }
-
-  createLikeForPost(like: postLike){
-    return this.http.post<postLike>(`${this.postUrl}/send-likes`,like)
   }
 }

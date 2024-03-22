@@ -143,3 +143,10 @@ button:hover{
     border-radius: 0px 0px 15px 15px;
     margin-bottom: 3px;
 }
+
+.liked-background {
+    background-color: rgb(253, 68, 68);
+}
+.disliked-background {
+    background-color: rgb(109, 172, 214);
+}

@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { catchError, tap } from 'rxjs/operators';
 import { userAccount } from '../Models/UserAccount';
 import { Observable, throwError,firstValueFrom, lastValueFrom  } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,26 @@ export class AuthService {
       })
     );
   }
+
+  checkTokenValidity(): boolean | string {
+    const token = this.getAuthToken();
+    if (!token) {
+        return 'No token found.';
+    }
+    try {
+        const decoded = jwtDecode<any>(token); // Decodes the token
+        const isTokenValid = decoded.exp > Date.now() / 1000;
+        if (!isTokenValid) {
+            localStorage.removeItem('auth_token');
+            return 'Token has expired.';
+        } else {
+            return true; // The token is valid
+        }
+    } catch (error) {
+        return 'Error decoding token.'+error;
+    }
+}
+
 
   getAuthToken() {
     return localStorage.getItem('auth_token');

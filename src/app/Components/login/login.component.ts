@@ -17,14 +17,13 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   authService : AuthService = inject(AuthService)
   showRegisterScreen : boolean = false
-  userAcc: userAccount = { userID: 0, userEmail : "ffff", userPassword: "Fanks", role : Role.User };
+  userAcc: userAccount = { userID: 0, userEmail : "user1@example.com", userPassword: "password1", role : Role.User };
   router: Router = inject(Router)
   constructor() {
     // Redirect user if already logged in for testing purpose
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/']);
     }
-    console.log("WORK")
   }
 
   login(): void {

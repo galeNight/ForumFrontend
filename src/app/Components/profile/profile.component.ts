@@ -39,51 +39,41 @@ export class ProfileComponent {
   
 
   ngOnInit(): void {
-    this.checkTokenValidity();
+    const tokenValidity = this.authService.checkTokenValidity();
+    if (tokenValidity === true){
+      this.isTokenValid = true;
+    }
+    else{
+      this.isTokenValid = false;
+      console.log(tokenValidity)
+    }
     this.loadProfile();
   }
 
   // For checking if you on a public link to your profile
-  private isUserOnPersonalProfile(): void {
+  isUserOnPersonalProfile(): void {
     const userIdToValidate: number = +this.route.snapshot.params['id']; // Get the ID from route parameters and ensure it's a number with '+'
     if (!userIdToValidate) {
       console.error('User ID is not provided or invalid.');
       this.isPrivateProfile = false;
       return;
     }
-
-    this.authService.validateUserId(userIdToValidate).subscribe({
-      next: (isValid) => {
-        this.isPrivateProfile = isValid;
-        console.log('User validation status:', isValid);
-      },
-      error: (error) => {
-        this.isPrivateProfile = false;
-        console.error('Error validating user:', error.message || 'An unknown error occurred while validating the user.');
-      }
-    });
-  
-  }
-
-
-
-  private checkTokenValidity(){
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      try {
-        const decoded = jwtDecode<any>(token); // Decodes the token
-        this.isTokenValid = decoded.exp > Date.now() / 1000;
-        if (!this.isTokenValid) {
-          console.log('Token has expired');
-          localStorage.removeItem('auth_token');
-        } else {
-          console.log('Token is still valid');
+    if (this.isTokenValid){
+      this.authService.validateUserId(userIdToValidate).subscribe({
+        next: (isValid) => {
+          this.isPrivateProfile = isValid;
+          console.log('User validation status:', isValid);
+        },
+        error: (error) => {
+          this.isPrivateProfile = false;
+          console.error('Error validating user:', error.message || 'An unknown error occurred while validating the user.');
         }
-      } catch (error) {
-        console.error('Error decoding token:', error);
-        this.isTokenValid = false;
-      }
+      }); 
     }
+    else{
+      this.isPrivateProfile = false;
+    }
+  
   }
 
   
@@ -91,10 +81,10 @@ export class ProfileComponent {
     const id: number = +this.route.snapshot.params['id']; // Convert to number to ensure correct type
     // Check if there is an ID in the route parameters to determine if we're viewing another user's profile
     if (id) {
-      this.isUserOnPersonalProfile(); 
+      this.isUserOnPersonalProfile();
       this.fetchProfile(id);
     } else {
-      if (this.isTokenValid) {
+      if (this.isTokenValid === true) {
         this.isPrivateProfile = true;
         this.fetchPersonalProfile();
       } else {

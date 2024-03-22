@@ -1,17 +1,13 @@
-export interface postLike {
-    userID : number
-    commentID : number
-    status : Like
+import { Like } from "./Enums"
+
+export interface LikeStats{
+    totalLikes: number;
+    totalDislikes: number;
+    pressedLikeButton?: Like
 }
 
-
-export interface replyLike {
-    userID : number
-    commentID : number
-    status : Like
-}
-
-export enum Like {
-    Dislike,
-    Like
+export interface LikeDislikeAction{
+    userID: number;
+    contentID: number;
+    status: Like;
 }
