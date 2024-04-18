@@ -61,8 +61,8 @@ export class ProfileComponent {
     if (this.isTokenValid){
       this.authService.validateUserId(userIdToValidate).subscribe({
         next: (isValid) => {
-          this.isPrivateProfile = isValid;
           console.log('User validation status:', isValid);
+          this.isPrivateProfile = isValid;
         },
         error: (error) => {
           this.isPrivateProfile = false;
@@ -71,10 +71,12 @@ export class ProfileComponent {
       }); 
     }
     else{
+      console.log('Token is invalid or not present.');
       this.isPrivateProfile = false;
     }
   
   }
+  
 
   
   private loadProfile(): void {

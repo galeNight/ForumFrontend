@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { first, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { PostService } from '../../Services/post.service';
 import { Post } from '../../Models/Post';
 import { MatIconModule } from '@angular/material/icon';
-import { Reply } from '../../Models/Reply';
 import { PostComment } from '../../Models/Comment';
 import { firstValueFrom } from 'rxjs';
 import { Like, postType } from '../../Models/Enums';
@@ -42,7 +41,6 @@ export class PostComponent {
     this.route.paramMap.pipe(
       switchMap(params => {
         this.selectedId = Number(params.get('id'));
-
         // Single call to get both likes and dislikes
         return this.likeService.getLikesOrDislikes(postType.POST, this.selectedId);
       })
@@ -101,12 +99,11 @@ export class PostComponent {
       }
     }
   }
-
-
   toggleCommentsForPost() {
     this.commentSectionIsOpened = !this.commentSectionIsOpened;
-
     if (this.commentSectionIsOpened && (!this.comments || this.comments.length === 0)) {
+      // Fetch call comments at once, then async with promise.all to get all of the likestats and return it to the specfic comment.
+      //updatedComments contains every comment but now with new like stats.
       this.postService.getCommentsForPost(this.selectedId)
         .subscribe(async (Comments) => {
           // Use Promise.all to fetch likes stats in parallel for all comments
@@ -115,6 +112,7 @@ export class PostComponent {
               this.likeService.getLikesOrDislikes(postType.COMMENT, comment.commentID)
             );
             return {
+              // returns a new object with comment propties and with the likestats.
               ...comment,
               likes: {
                 totalLikes: likesStats.totalLikes,
