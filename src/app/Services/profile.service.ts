@@ -9,11 +9,9 @@ import { userProfile } from '../Models/userProfile';
   providedIn: 'root'
 })
 export class ProfileService {
-  private http: HttpClient = inject(HttpClient);
-  url : string = `${environment.apiBaseUrl}/Profile`;
-
-
-
+  private http: HttpClient = inject(HttpClient);// Injecting HttpClient instance
+  url : string = `${environment.apiBaseUrl}/Profile`;// Base URL for profile-related API endpoints
+  // Method to fetch personal profile of the authenticated user
   getPersonalProfile(): Observable<userProfile> {
     const token = localStorage.getItem('auth_token');
     if (!token) {
@@ -21,7 +19,7 @@ export class ProfileService {
       return throwError(() => new Error('No JWT token available.'));
     }
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`// Set Authorization header with JWT token
     });
 
     return this.http.get<userProfile>(`${this.url}/Personal`, { headers }).pipe(
@@ -31,7 +29,7 @@ export class ProfileService {
       })
     );
   }
-  
+  // Method to fetch user profile by ID
   getProfile(id: number): Observable<userProfile> {
     return this.http.get<userProfile>(`${this.url}/${id}`).pipe(
       catchError(error => {

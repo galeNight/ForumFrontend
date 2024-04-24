@@ -17,54 +17,51 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
 
-  // Send userAccount to server which then test if it
+  // Method to authenticate user login
   login(userAcc : userAccount){
     return this.http.post<{token: string}>(this.loginUrl, userAcc)
     .pipe(
       tap(res => {
-        localStorage.setItem('auth_token', res.token);
+        localStorage.setItem('auth_token', res.token);// Store the JWT token in local storage
       }),
       catchError(error => {
-        // Handle HTTP errors
-        throw error;
+        throw error; // Handle HTTP errors
       })
     );
   }
-
+  // Check if the JWT token is valid
   checkTokenValidity(): boolean | string {
     const token = this.getAuthToken();
     if (!token) {
         return 'No token found.';
     }
     try {
-        const decoded = jwtDecode<any>(token); // Decodes the token
-        const isTokenValid = decoded.exp > Date.now() / 1000;
+        const decoded = jwtDecode<any>(token); // Decode the token
+        const isTokenValid = decoded.exp > Date.now() / 1000; // Check if token expiration time is in the future
         if (!isTokenValid) {
-            localStorage.removeItem('auth_token');
+            localStorage.removeItem('auth_token');// Remove invalid token from local storage
             return 'Token has expired.';
         } else {
-            return true; // The token is valid
+            return true; // Token is valid
         }
     } catch (error) {
         return 'Error decoding token.'+error;
     }
 }
-
-
+// Retrieve the JWT token from local storage
   getAuthToken() {
     return localStorage.getItem('auth_token');
   }
 
-  // If this token is there, return true. This dosen't check if the token is still valid
+  // Check if the user is logged in by verifying the presence of the JWT token
   isLoggedIn() {
     return !!this.getAuthToken();
   }
-
+  // Logout the user by removing the JWT token from local storage
   logout() {
     localStorage.removeItem('auth_token');
   }
-
-
+  // Validate a user ID by making a request to the server
   validateUserId(id: number): Observable<boolean> {
     const token = localStorage.getItem('auth_token');
     if (!token) {
@@ -75,7 +72,6 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     });
 
-
     return this.http.get<boolean>(`${this.validateUrl}/${id}`, { headers }).pipe(
       catchError(error => {
         // Handle HTTP errors
@@ -83,7 +79,7 @@ export class AuthService {
       })
     );
   }
-
+  // Check if a given password is correct by making a request to the server
   isPasswordCorrect(password: string) {
     const encodedPassword = encodeURIComponent(password);
     const body = { encodedPassword: encodedPassword };
@@ -94,8 +90,7 @@ export class AuthService {
 
     return firstValueFrom(this.http.post<boolean>(this.passwordCheckerUrl+"/"+encodedPassword, { headers }));
   }
-
-
+  // Fetch account details for the authenticated user from the server
   async fetchAccountDetails() {
     const token = localStorage.getItem('auth_token');
     if (!token) {
@@ -104,7 +99,7 @@ export class AuthService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-  
+    
     try {
       const accountDetails = await lastValueFrom(
         this.http.get<userAccount>(this.accountDetailsUrl, { headers })

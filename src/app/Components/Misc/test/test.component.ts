@@ -12,18 +12,19 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class TestComponent {
   
-  profile?: userProfile;
-  profileService = inject(ProfileService)
-  switchEdit: boolean = true
+  profile?: userProfile;// Variable to hold the user profile
+  profileService = inject(ProfileService)// Injected ProfileService for fetching user profile
+  switchEdit: boolean = true// Variable to switch between edit mode and display mode
 
   ngOnInit(): void {
+    // Assign the fetched profile to the 'profile' variable
     this.profileService.getPersonalProfile().subscribe(
       response => {
-        this.profile = response;
+        this.profile = response;// Assign the fetched profile to the 'profile' variable
       },
       error => {
-        console.error('Failed to load profile:', error);
-        // Handle error
+        console.error('Failed to load profile:', error);// Log error if profile loading fails
+        // Handle error (optional)
       }
     );
   }

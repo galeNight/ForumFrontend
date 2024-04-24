@@ -15,28 +15,33 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  authService : AuthService = inject(AuthService)
-  showRegisterScreen : boolean = false
-  userAcc: userAccount = { userID: 0, userEmail : "user1@example.com", userPassword: "password1", role : Role.User };
-  router: Router = inject(Router)
+  authService : AuthService = inject(AuthService)// AuthService for authentication
+  showRegisterScreen : boolean = false // Flag to toggle between login and register screens
+  userAcc: userAccount = { // Object to store user account details
+    userID: 0, 
+    userEmail : "user1@example.com", 
+    userPassword: "password1", 
+    role : Role.User };// Default role is User
+  router: Router = inject(Router) // Router service for navigation
   constructor() {
     // Redirect user if already logged in for testing purpose
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/']);
     }
   }
-
+  // Method to handle user login
   login(): void {
     this.authService.login(this.userAcc).subscribe({
       next: (res) => {
+        // Redirect to home page after successful login
         this.router.navigate(['/']);
       },
       error: (err) => {
-        console.error('Login failed:', err);
+        console.error('Login failed:', err);// Log error if login fails
       }
     });
   }
-  
+  // Method to toggle between login and register screens
   toggleRegister(): void {
     this.showRegisterScreen = !this.showRegisterScreen;
   }

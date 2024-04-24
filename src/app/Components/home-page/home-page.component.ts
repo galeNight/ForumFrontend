@@ -14,18 +14,19 @@ import { Router } from '@angular/router';
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent {
-  recentPosts: Post[] = []
-  postService : PostService = inject(PostService)
-  router: Router = inject(Router)
+  recentPosts: Post[] = []// Array to store recent posts
+  postService : PostService = inject(PostService)// Service for fetching posts
+  router: Router = inject(Router)// Router service for navigation
 
   ngOnInit(): void {
+    // Fetch recent posts when component initializes
     this.postService.getRecentPosts()
       .subscribe(posts => {
-        this.recentPosts = posts;
+        this.recentPosts = posts;// Assign fetched posts to recentPosts array
       });
   }
-
+  // Method to navigate to a specific post
   navigateToPost(postId: number): void {
-    this.router.navigate(['/post', postId]);
+    this.router.navigate(['/post', postId]);// Navigate to the post detail page with postId as route parameter
   }
 }

@@ -5,13 +5,13 @@ import { LoginComponent } from './Components/login/login.component';
 import { TestComponent } from './Components/Misc/test/test.component';
 import { ErrorComponent } from './Components/Misc/error/error.component';
 import { ProfileComponent } from './Components/profile/profile.component';
-
+// Define the routes using the Routes array
 export const routes: Routes = [
-    {path: '', component: HomePageComponent},
-    { path: 'post/:id', component: PostComponent },
-    {path: 'login', component: LoginComponent},
-    { path: 'profile', component: ProfileComponent }, // Profile without ID
-    { path: 'profile/:id', component: ProfileComponent }, // Profile with optional ID
-    {path: 'test', component: TestComponent},
-    {path: '**', component: ErrorComponent}
-]
+    {path: '', component: HomePageComponent}, // Default route to HomePageComponent when the path is empty
+    { path: 'post/:id', component: PostComponent }, // Route to PostComponent with a parameter :id
+    {path: 'login', component: LoginComponent}, // Route to LoginComponent
+    { path: 'profile', component: ProfileComponent }, // Route to ProfileComponent without an ID
+    { path: 'profile/:id', component: ProfileComponent }, // Route to ProfileComponent with an optional ID
+    {path: 'test', component: TestComponent}, // Route to TestComponent
+    {path: '**', component: ErrorComponent}, // Route to ErrorComponent for any other undefined routes
+];

@@ -33,11 +33,12 @@ export class PostComponent {
 
   openedReplies = new Set<number>(); // includes every induvidual opened reply section id.
   postLikeStatus: LikeStats = { totalLikes: 0, totalDislikes: 0 }
-  Like = Like;
-  postType = postType;
-  disabledLikes: Boolean = false;
+  Like = Like;// Enum for like, dislike, or none
+  postType = postType;// Enum for post, comment, or reply
+  disabledLikes: Boolean = false;// Flag for disabling likes
 
   ngOnInit(): void {
+    // Fetch post details and likes/dislikes stats when component initializes
     this.route.paramMap.pipe(
       switchMap(params => {
         this.selectedId = Number(params.get('id'));
@@ -46,15 +47,15 @@ export class PostComponent {
       })
     ).subscribe((likeStats: LikeStats) => {
       this.postLikeStatus = likeStats;
-      this.comments = [];
-      this.commentSectionIsOpened = false;
-      this.openedReplies.clear();
-
+      this.comments = [];// Clear existing comments
+      this.commentSectionIsOpened = false;// Close comment section
+      this.openedReplies.clear();// Clear opened replies
+      // Fetch post details
       this.postService.getPostById(this.selectedId).subscribe(post => {
         this.postDetails = post;
       });
     });
-
+    // Check token validity to disable likes if not valid
     const tokenValidity = this.authService.checkTokenValidity();
 
     if (tokenValidity !== true) {
@@ -62,11 +63,13 @@ export class PostComponent {
     }
 
   }
-
+  // Method to handle liking or disliking a post, comment, or reply
   TestlikeOrDislike(id: number, contentType: postType, SendLike: Like, likestats: LikeStats | undefined) {
     if (likestats !== undefined) {
       if (SendLike === Like.LIKE) {
+        // Create or update like for the content
         this.likeService.createLikeOrDislike(id, contentType, Like.LIKE);
+        // Update like stats based on the action
         if (likestats.pressedLikeButton === Like.LIKE) {
           likestats.pressedLikeButton = Like.NONE
           likestats.totalLikes--;
@@ -82,7 +85,9 @@ export class PostComponent {
         }
       }
       else if (SendLike === Like.DISLIKE) {
+        // Create or update dislike for the content
         this.likeService.createLikeOrDislike(id, contentType, Like.DISLIKE);
+        // Update like stats based on the action
         if (likestats.pressedLikeButton === Like.LIKE) {
           likestats.pressedLikeButton = Like.DISLIKE
           likestats.totalLikes--;
@@ -99,11 +104,11 @@ export class PostComponent {
       }
     }
   }
+  // Toggle visibility of comments for a post
   toggleCommentsForPost() {
     this.commentSectionIsOpened = !this.commentSectionIsOpened;
     if (this.commentSectionIsOpened && (!this.comments || this.comments.length === 0)) {
-      // Fetch call comments at once, then async with promise.all to get all of the likestats and return it to the specfic comment.
-      //updatedComments contains every comment but now with new like stats.
+      // Fetch comments for the post and their respective like stats
       this.postService.getCommentsForPost(this.selectedId)
         .subscribe(async (Comments) => {
           // Use Promise.all to fetch likes stats in parallel for all comments
@@ -112,7 +117,7 @@ export class PostComponent {
               this.likeService.getLikesOrDislikes(postType.COMMENT, comment.commentID)
             );
             return {
-              // returns a new object with comment propties and with the likestats.
+              // Returns a new object with comment properties and with the like stats
               ...comment,
               likes: {
                 totalLikes: likesStats.totalLikes,
@@ -122,16 +127,18 @@ export class PostComponent {
             };
           }));
 
-          this.comments = updatedComments;
+          this.comments = updatedComments; // Update comments with new like stats
         });
     }
   }
+  // Toggle visibility of replies for a comment
   toggleRepliesForComment(comment: PostComment): void {
     if (this.openedReplies.has(comment.commentID)) {
       this.openedReplies.delete(comment.commentID);
     } else {
       this.openedReplies.add(comment.commentID);
       if (!comment.replies || comment.replies.length === 0) {
+        // Fetch replies for the comment and their respective like stats
         this.postService.getRepliesForSpecificComment(comment.commentID)
           .subscribe(async (replies) => {
             const updatedReplies = await Promise.all(replies.map(async (reply) => {
@@ -147,7 +154,7 @@ export class PostComponent {
                 }
               };
             }));
-            comment.replies = updatedReplies;
+            comment.replies = updatedReplies;// Update replies with new like stats
           });
       }
     }
