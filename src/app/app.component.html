@@ -1,21 +1,33 @@
 <div class="top-menu">
+    <!-- Top menu section -->
     <h1>{{title}}</h1>
+    <!-- Display the title -->
     <button mat-icon-button  (click)="MySideNav.toggle()" class="top-activate-side-menu">
+        <!-- Button to toggle the side menu -->
         <mat-icon>menu</mat-icon>
+        <!-- Icon for the side menu -->
     </button>
     <div class="top-activate-login">
+        <!-- Container for the login button -->
         @if(!isLoginComponent){
+            <!-- If it's not the login component -->
             <button mat-raised-button (click)="navigateToLogin()">login</button>
+            <!-- Display the login button -->
         }
     </div>
 </div>
 
 <mat-sidenav-container class="sidenav">
+    <!-- Container for the side navigation -->
     <mat-sidenav #MySideNav mode="side" position="start">
+        <!-- Side navigation -->
         <h1>Test From The Side</h1>
+        <!-- Display a test message in the side navigation -->
     </mat-sidenav>
       
     <mat-sidenav-content>
+        <!-- Content area -->
         <router-outlet></router-outlet>
+        <!-- Display the routed components -->
     </mat-sidenav-content>
 </mat-sidenav-container>

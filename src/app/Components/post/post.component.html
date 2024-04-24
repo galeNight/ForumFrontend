@@ -1,77 +1,118 @@
 @if (postDetails) {
+    <!-- Check if postDetails exist -->
     <div class="container">
+        <!-- Container for post details -->
         <div class=" post-background">
+            <!-- Styling for the post section -->
             <div style="margin: 20px;">
+                <!-- Margin styling -->
                 <h1><b>Welcome to the New Members!</b></h1>
+                <!-- Title -->
                 <p class="subtitle"><b>Topic: {{postDetails.topic?.topicName}}</b> Posted by <b>{{postDetails.userProfile?.userName}}</b> on {{postDetails.postCreated | date}}</p>
+                <!-- Post details like topic, author, and date -->
                 <div class="post-text">
+                    <!-- Container for post content -->
                     <p>{{postDetails.postContent}}</p>
+                    <!-- Display post content -->
                 </div>
             </div>
             <div class="post-bottom">
+                <!-- Container for post actions -->
                 <div class="likes">+{{postLikeStatus.totalLikes}}</div>
+                <!-- Display total likes -->
                 <button aria-label="Like" style="margin-right: 10px;" [ngClass]="{'liked-background': postLikeStatus.pressedLikeButton == Like.LIKE}"
                 (click)="TestlikeOrDislike(selectedId,postType.POST,Like.LIKE,postLikeStatus)" [disabled]="disabledLikes">
                   <mat-icon color="primary">thumb_up</mat-icon>
                 </button>
+                <!-- Like button -->
                 <div class="dislikes">-{{postLikeStatus.totalDislikes}}</div>
+                <!-- Display total dislikes -->
                 <button aria-label="Dislike" [ngClass]="{'disliked-background': postLikeStatus.pressedLikeButton == Like.DISLIKE}"
                 (click)="TestlikeOrDislike(selectedId,postType.POST,Like.DISLIKE,postLikeStatus)" [disabled]="disabledLikes">
                     <mat-icon color="warn">thumb_down</mat-icon>
                 </button>
+                <!-- Dislike button -->
                 <button aria-label="Comments" style="margin-left: 10px;" (click)="toggleCommentsForPost()">
                     <mat-icon>comment</mat-icon>
                 </button>
+                <!-- Toggle comments button -->
             </div>
         </div>
         @if(commentSectionIsOpened){
+            <!-- Check if the comment section is opened -->
             @for(comment of comments; track comment.commentID;){
+                <!-- Loop through comments -->
                 <div class="comment-container">
+                    <!-- Container for each comment -->
                     <div class="comment-background" [ngClass]="{'comment-background-reply': comment.replies && comment.replies.length > 0}">
+                        <!-- Styling for the comment background -->
                         <div style="margin: 20px;" >
+                            <!-- Margin styling -->
                             <p class="subtitle"> Posted by <b>Cookster</b> on {{comment.created | date}} </p>
+                            <!-- Comment author and date -->
                             <div class="comment-text">
+                                <!-- Container for comment content -->
                                 <p>{{comment.commentContent}}</p>
+                                <!-- Display comment content -->
                             </div>
                         </div>
                         <div class="comment-bottom">
+                            <!-- Container for comment actions -->
                             <div class="likes">+{{comment.likes?.totalLikes}}</div>
+                            <!-- Display total likes -->
                             <button aria-label="Like" style="margin: 10px;"[ngClass]="{'liked-background': comment.likes?.pressedLikeButton == Like.LIKE}"
                             (click)="TestlikeOrDislike(comment.commentID,postType.COMMENT,Like.LIKE,comment.likes)" [disabled]="disabledLikes">
                                 <mat-icon color="primary">thumb_up</mat-icon>
                             </button>
+                            <!-- Like button -->
                             <div class="dislikes">-{{comment.likes?.totalDislikes}}</div>
+                            <!-- Display total dislikes -->
                             <button aria-label="Dislike" [ngClass]="{'disliked-background': comment.likes?.pressedLikeButton == Like.DISLIKE}"
                             (click)="TestlikeOrDislike(comment.commentID,postType.COMMENT,Like.DISLIKE,comment.likes)" [disabled]="disabledLikes">
                                 <mat-icon color="warn">thumb_down</mat-icon>
                             </button>
+                            <!-- Dislike button -->
                             <button aria-label="Comments" style="margin-left: 10px;" (click)="toggleRepliesForComment(comment)">
                                 <mat-icon>reply</mat-icon>
                             </button>
+                            <!-- Toggle replies button -->
                         </div>
                     </div>
                     @if(this.openedReplies.has(comment.commentID) ){
+                        <!-- Check if replies are opened for the comment -->
                         @for(reply of comment.replies; track reply.replyID; let lastReply = $last){
-                            <div class="reply-background" [ngClass]="{'reply-background-end' : lastReply}" >
+                            <!-- Loop through replies -->
+                            <div class="reply-background" [ngClass]="{'reply-background-end' : lastReply}">
+                                <!-- Styling for the reply background -->
                                 <div style="margin: 10px;">
+                                    <!-- Margin styling -->
                                     <p class="subtitle"> Posted by <b>Cookster</b> on Feb 22, 2024</p>
+                                    <!-- Reply author and date -->
                                     <div class="reply-text">
+                                        <!-- Container for reply content -->
                                         {{reply.replyContent}}
+                                        <!-- Display reply content -->
                                     </div>
                                     <div class="reply-bottom">
+                                        <!-- Container for reply actions -->
                                         <div class="likes">+{{reply.likes?.totalLikes}}</div>
+                                        <!-- Display total likes -->
                                         <button aria-label="Like" style="margin: 10px;" [ngClass]="{'liked-background': reply.likes?.pressedLikeButton == Like.LIKE}"
                                         (click)="TestlikeOrDislike(reply.replyID,postType.REPLY,Like.LIKE,reply.likes)" [disabled]="disabledLikes">
                                             <mat-icon color="primary">thumb_up</mat-icon>
                                         </button>
+                                         <!-- Like button -->
                                         <div class="dislikes">-{{reply.likes?.totalDislikes}}</div>
+                                        <!-- Display total dislikes -->
                                         <button aria-label="Dislike" [ngClass]="{'disliked-background': reply.likes?.pressedLikeButton == Like.DISLIKE}"
                                         (click)="TestlikeOrDislike(reply.replyID,postType.REPLY,Like.DISLIKE,reply.likes)" [disabled]="disabledLikes">
                                             <mat-icon color="warn">thumb_down</mat-icon>
                                         </button>
+                                        <!-- Dislike button -->
                                         <button aria-label="Comments" style="margin-left: 10px;">
                                             <mat-icon>reply</mat-icon>
                                         </button>
+                                        <!-- Reply button -->
                                     </div>
                                 </div>
                             </div>
@@ -85,25 +126,36 @@
 
  }
  @else {
-    <!--Backup-->
+<!-- Fallback content -->
     <div class="container">
+        <!-- Container for fallback content -->
         <div class=" post-background">
+            <!-- Styling for the fallback section -->
             <div style="margin: 20px;">
+                <!-- Margin styling -->
                 <h1><b>Welcome to the New Members!</b></h1>
+                <!-- Title -->
                 <p class="subtitle"> <b>Topic: Introductions.</b> Posted by <b>Cookster</b> on Feb 22, 2024</p>
+                <!-- Post details like topic, author, and date -->
                 <div class="post-text">
+                    <!-- Container for post content -->
                     <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a purus pulvinar, efficitur massa sed, consectetur lacus. Pellentesque laoreet dolor ex, accumsan dignissim lacus lobortis eget. Etiam id elit augue. Nam ac sapien varius, ultrices ante vitae, lobortis enim. Morbi quis interdum ante. Quisque convallis mattis cursus. Ut ornare nunc at hendrerit iaculis. Morbi rhoncus ac nisl ac vulputate.</p>
                     <p>Pellentesque efficitur massa nibh, id consectetur risus luctus sit amet. Quisque nulla dui, vehicula id eleifend ut, finibus sed justo. Nulla tempus ex quis felis accumsan vehicula. Maecenas hendrerit mi neque, et ultrices dolor suscipit ac. Vestibulum semper orci in lacus blandit faucibus. Nulla eu lectus lorem. Nunc rhoncus eleifend mi, ut mollis mauris convallis dignissim. Phasellus pellentesque porta interdum. Nam faucibus dictum posuere.</p>
+                    <!-- Display post content -->                
                 </div>            
             </div>
             <div class="bottom">
+                 <!-- Container for post actions -->
                 <button aria-label="Like" style="margin: 10px;">
+                    <!-- Like button -->
                     <mat-icon color="primary">thumb_up</mat-icon>
                 </button>
                 <button aria-label="Dislike">
+                    <!-- Dislike button -->
                     <mat-icon color="warn">thumb_down</mat-icon>
                 </button>
                 <button aria-label="Comments" style="margin-left: 10px;">
+                    <!-- Comments button -->
                     <mat-icon>comment</mat-icon>
                 </button>
             </div>

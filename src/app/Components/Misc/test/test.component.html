@@ -1,16 +1,28 @@
 <div class="container">
+    <!-- Container for the profile content -->
     <div class="profile-background">
+        <!-- Background styling for the profile section -->
         <div class="profile-details">
+            <!-- Container for the profile details -->
             @if(profile){
+                <!-- Conditional check for profile data existence -->
                 <div class="profile-picture"></div>
+                <!-- Placeholder for the profile picture -->
                 <div style="margin-top: 40px;">
+                    <!-- Container for profile text details -->
                     <p><strong>UserName:</strong> {{ profile.userName }}</p>
+                    <!-- Displaying the username -->
                     <p><strong>Full Name:</strong> {{ profile.firstName }} {{profile.lastName}}</p>
+                    <!-- Displaying the full name -->
                     <p><strong>User ID:</strong> {{ profile.userID }}</p>
+                    <!-- Displaying the user ID -->
                     <p><strong>Join Date:</strong> {{ profile.joinDate | date: 'longDate' }}</p>
+                    <!-- Displaying the join date with long date format -->
                 </div>
             }
         </div>
+        <!-- Container for the profile edit button -->
         <button class="profile-edit-button" mat-raised-button color="primary">Edit Profile</button>
+        <!-- Button to trigger profile editing -->
     </div>
 </div>

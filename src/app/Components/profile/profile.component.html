@@ -1,77 +1,120 @@
 @if(!EditBtn){
+    <!-- If EditBtn is false -->
     <div class="container">
+        <!-- Container for the profile -->
         <div class="profile-background">
+            <!-- Background for the profile -->
             <div class="profile-details">
+                <!-- Profile details section -->
                 @if(profile){
+                    <!-- If profile exists -->
                     <div class="profile-picture"></div>
+                    <!-- Display profile picture -->
                     <div style="margin-top: 40px;">
+                        <!-- Margin for profile details -->
                         @if(isPrivateProfile){
+                            <!-- If the profile is private -->
                             <h1>Private</h1>
+                            <!-- Display "Private" -->
                         }
                         <p><strong>UserName:</strong> {{ profile.userName }}</p>
+                        <!-- Display username -->
                         <p><strong>Full Name:</strong> {{ profile.firstName }} {{profile.lastName}}</p>
+                        <!-- Display full name -->
                         <p><strong>User ID:</strong> {{ profile.userID }}</p>
+                        <!-- Display user ID -->
                         <p><strong>Join Date:</strong> {{ profile.joinDate | date: 'longDate' }}</p>
+                        <!-- Display join date -->
                     </div>
                 }
             </div>
             @if(isPrivateProfile){
+                <!-- If the profile is private -->
                 <button class="profile-edit-button" mat-raised-button color="primary"  (click)="switchEditBtn()">Edit Profile</button>
+                <!-- Display "Edit Profile" button -->
             }
         </div>
     </div>
 }
 
 @else{
+    <!-- If EditBtn is true -->
     @if(profile){
+        <!-- If profile exists -->
         <div class="container">
+            <!-- Container for the profile -->
             <div class="profile-background">
+                <!-- Background for the profile -->
                 <button mat-raised-button class="returnbtn" color="primary" (click)="this.EditBtn = !this.EditBtn">Return</button>
+                <!-- Display "Return" button -->
                 <h1 class="side">Edit Profile</h1>
+                <!-- Display "Edit Profile" heading -->
                 <h2 class="side">Public</h2>
+                <!-- Display "Public" heading -->
                 <div class="edit-flex-container">
+                    <!-- Container for editing profile -->
                     <div class="edit-flex-item side">
+                         <!-- Flex item for editing first name -->
                         <mat-form-field appearance="outline">
                             <mat-label>First Name</mat-label>
                             <input matInput placeholder="Your first name" [(ngModel)]="profile.firstName">
+                            <!-- Input field for first name -->
                         </mat-form-field>
                     </div>
                     <div class="edit-flex-item side">
+                        <!-- Flex item for editing last name -->
                         <mat-form-field appearance="outline">
                             <mat-label>Last Name</mat-label>
                             <input matInput placeholder="Your last name" [(ngModel)]="profile.lastName">
+                            <!-- Input field for last name -->
                         </mat-form-field>
                     </div>
                     <div class="edit-flex-item side">
+                        <!-- Flex item for editing username -->
                         <mat-form-field appearance="outline" >
                             <mat-label>UserName</mat-label>
                             <input  matInput placeholder="Your username" [(ngModel)]="profile.userName">
+                            <!-- Input field for username -->
                         </mat-form-field>
                     </div>
                     @if(notVerifedForPrivateDetails === true){
+                        <!-- If not verified for private details -->
                         <button mat-raised-button color="primary" (click)="showDialogue()" class="side" style="margin-bottom: 10px;">Unlock Panel</button>
+                        <!-- Display "Unlock Panel" button -->
                     }
                 </div>
                 <mat-accordion>
+                    <!-- Accordion for private information -->
                     <mat-expansion-panel hideToggle [disabled]="notVerifedForPrivateDetails" class="side">
+                        <!-- Expansion panel for private information -->
                         <mat-expansion-panel-header>
+                            <!-- Header for expansion panel -->
                             <mat-panel-title>
+                                <!-- Title for expansion panel -->
                                 <h2>Private Information</h2>
+                                <!-- Display "Private Information" heading -->
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <mat-panel-description>
+                             <!-- Description for expansion panel -->
                             @if(privateUser){
+                                <!-- If private user exists -->
                                 <div class="edit-flex-container">
+                                    <!-- Container for editing private information -->
                                     <div class="edit-flex-item">
+                                        <!-- Flex item for editing email -->
                                         <mat-form-field appearance="outline">
                                             <mat-label>Email</mat-label>
                                             <input matInput placeholder="Example@Mail.com" [(ngModel)]="privateUser.userEmail">
+                                            <!-- Input field for email -->
                                         </mat-form-field>
                                     </div>
                                     <div class="edit-flex-item">
+                                        v
                                         <mat-form-field appearance="outline">
                                             <mat-label>Password</mat-label>
                                             <input matInput placeholder="Password" [(ngModel)]="privateUser.userPassword">
+                                            <!-- Input field for password -->
                                         </mat-form-field>
                                     </div>
                                 </div>

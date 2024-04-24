@@ -1,13 +1,23 @@
 
 <p>edit-window works!</p>
+<!-- Display a message indicating that the edit window works -->
 <h2 mat-dialog-title>Write Password to access personal info</h2>
+<!-- Dialog title indicating that the user needs to write their password to access personal information -->
 <mat-dialog-content>
+  <!-- Content section of the dialog -->
   <mat-form-field appearance="outline" style="margin-top: 5px;">
+    <!-- Material design form field with an outlined appearance -->
     <mat-label>Your Password</mat-label>
+    <!-- Label for the input field -->
     <input matInput [(ngModel)]="password" placeholder="Password">
+    <!-- Input field for the user to enter their password, two-way data binding with ngModel -->
 </mat-form-field>
 </mat-dialog-content>
+
 <mat-dialog-actions align="center">
+  <!-- Dialog actions section aligned to the center -->
   <button mat-raised-button color="warn"  (click)="CancelAction()">Return?</button>
+  <!-- Button to cancel the action, triggers CancelAction() function when clicked -->
   <button mat-raised-button color="primary" (click)="confirmAction()" cdkFocusInitial>Confirm</button>
+  <!-- Button to confirm the action, triggers confirmAction() function when clicked, and receives initial focus when the dialog is opened -->
 </mat-dialog-actions>

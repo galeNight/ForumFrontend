@@ -1,13 +1,18 @@
 
 <div class="container">
+    <!-- Loop through each post in the recentPosts array -->
     @for(post of recentPosts; track post.postID){
         <div class="post-background" >
             <div class="post-body">
+                <!-- Display the post title -->
                 <h1>{{ post.title }}</h1>
+                <!-- Display additional post information such as topic, author, and date -->
                 <p class="post-text-subtitle"><b>Topic: {{post.topic?.topicName}}.</b> Posted by <b>{{ post.userProfile?.userName }}</b> on {{ post.postCreated | date }}</p>
+                <!-- Display the post content -->
                 <div class="post-text">
                     <p>{{ post.postContent}}</p>
                 </div>
+                <!-- Display buttons for actions like liking the post and reading more -->
                 <div class="post-bottom Gap">
                     <button mat-button class="like-btn">
                         <mat-icon>thumb_up</mat-icon>
