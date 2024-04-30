@@ -1,6 +1,5 @@
-@if (postDetails) {
     <!-- Check if postDetails exist -->
-    <div class="container">
+    <div class="container" *ngIf="postDetails">
         <!-- Container for post details -->
         <div class=" post-background">
             <!-- Styling for the post section -->
@@ -122,43 +121,3 @@
              }
         }
     </div>
-
-
- }
- @else {
-<!-- Fallback content -->
-    <div class="container">
-        <!-- Container for fallback content -->
-        <div class=" post-background">
-            <!-- Styling for the fallback section -->
-            <div style="margin: 20px;">
-                <!-- Margin styling -->
-                <h1><b>Welcome to the New Members!</b></h1>
-                <!-- Title -->
-                <p class="subtitle"> <b>Topic: Introductions.</b> Posted by <b>Cookster</b> on Feb 22, 2024</p>
-                <!-- Post details like topic, author, and date -->
-                <div class="post-text">
-                    <!-- Container for post content -->
-                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a purus pulvinar, efficitur massa sed, consectetur lacus. Pellentesque laoreet dolor ex, accumsan dignissim lacus lobortis eget. Etiam id elit augue. Nam ac sapien varius, ultrices ante vitae, lobortis enim. Morbi quis interdum ante. Quisque convallis mattis cursus. Ut ornare nunc at hendrerit iaculis. Morbi rhoncus ac nisl ac vulputate.</p>
-                    <p>Pellentesque efficitur massa nibh, id consectetur risus luctus sit amet. Quisque nulla dui, vehicula id eleifend ut, finibus sed justo. Nulla tempus ex quis felis accumsan vehicula. Maecenas hendrerit mi neque, et ultrices dolor suscipit ac. Vestibulum semper orci in lacus blandit faucibus. Nulla eu lectus lorem. Nunc rhoncus eleifend mi, ut mollis mauris convallis dignissim. Phasellus pellentesque porta interdum. Nam faucibus dictum posuere.</p>
-                    <!-- Display post content -->                
-                </div>            
-            </div>
-            <div class="bottom">
-                 <!-- Container for post actions -->
-                <button aria-label="Like" style="margin: 10px;">
-                    <!-- Like button -->
-                    <mat-icon color="primary">thumb_up</mat-icon>
-                </button>
-                <button aria-label="Dislike">
-                    <!-- Dislike button -->
-                    <mat-icon color="warn">thumb_down</mat-icon>
-                </button>
-                <button aria-label="Comments" style="margin-left: 10px;">
-                    <!-- Comments button -->
-                    <mat-icon>comment</mat-icon>
-                </button>
-            </div>
-        </div>   
-    </div>
- }

@@ -42,6 +42,7 @@ export class PostComponent {
     this.route.paramMap.pipe(
       switchMap(params => {
         this.selectedId = Number(params.get('id'));
+        //console.log("selected id", this.selectedId); //log for debugging
         // Single call to get both likes and dislikes
         return this.likeService.getLikesOrDislikes(postType.POST, this.selectedId);
       })
@@ -51,8 +52,11 @@ export class PostComponent {
       this.commentSectionIsOpened = false;// Close comment section
       this.openedReplies.clear();// Clear opened replies
       // Fetch post details
+      //console.log("selected id", this.selectedId);
       this.postService.getPostById(this.selectedId).subscribe(post => {
         this.postDetails = post;
+        //console.log(post); // log for debugging
+        //console.log(this.postDetails); //log for debugging
       });
     });
     // Check token validity to disable likes if not valid
