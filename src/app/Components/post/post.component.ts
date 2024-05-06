@@ -159,7 +159,8 @@ export class PostComponent {
               };
             }));
             comment.replies = updatedReplies;// Update replies with new like stats
-          });
+          }
+        );
       }
     }
   }

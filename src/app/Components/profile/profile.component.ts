@@ -111,7 +111,7 @@ export class ProfileComponent {
       error => console.error('Failed to load personal profile:', error)// Log error if failed to load personal profile
     );
   }
-  
+  // methode to fech the profile
   private fetchProfile(id: number): void {
     this.profileService.getProfile(id).subscribe(
       response => this.profile = response,// Assign the fetched profile to the profile variable
