@@ -1,11 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-
-import {MatIconModule} from '@angular/material/icon';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatButtonModule} from '@angular/material/button';
-
+import { MatIconModule} from '@angular/material/icon';
+import { MatSidenavModule} from '@angular/material/sidenav';
+import { MatButtonModule} from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpErrorResponse  } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { Post} from './Models/Post';
 
 @Component({
   selector: 'app-root',
@@ -15,23 +18,20 @@ import {MatButtonModule} from '@angular/material/button';
     RouterOutlet, 
     MatIconModule, 
     MatSidenavModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule
   ],
   templateUrl: './app.component.html', // HTML template file
   styleUrl: './app.component.css' // CSS styling file
 })
+
 export class AppComponent {
   title = 'Forum'; // Title of the application
   router: Router = inject(Router) // Injecting Router service
   isLoginComponent : boolean = false // Flag to indicate if the current component is the login component
+  searchterm: string = ""; // Search term to be used in the search bar
 
-  // Method to navigate to the login page
-  navigateToLogin() {
-    this.router.navigate(['/login']); // Navigate to '/login' route
-    this.isLoginComponent = true // Set flag to indicate that the login component is active
-  }
-
-  constructor() {
+  constructor(private http: HttpClient) {
     // Subscribe to router events
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -39,5 +39,26 @@ export class AppComponent {
         this.isLoginComponent = event.url.includes('/login');
       }
     });
+  }
+    // Method to navigate to the login page
+    navigateToLogin() {
+      this.router.navigate(['/login']); // Navigate to '/login' route
+      this.isLoginComponent = true; // Set flag to indicate that the login component is active
+    }
+  //methode to handle logout
+  logout(): void{
+    // Clear the authentication token 
+    localStorage.removeItem('auth_token');
+    // Navigate to the login page after logout
+    this.router.navigate(['/login']);
+    //set flag to indicate that the login component is active
+    this.isLoginComponent = true;
+  }
+  // search method
+  search():void{
+  }
+  //method to navigate to the homepage
+  navigatetohomepage(): void{
+    this.router.navigate(['/']);
   }
 }

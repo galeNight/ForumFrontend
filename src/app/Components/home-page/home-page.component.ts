@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent {
-  recentPosts: Post[] = []// Array to store recent posts
+  recentPosts: Post[] = []// list to store recent posts // in typescript array symbol is a list 
   postService : PostService = inject(PostService)// Service for fetching posts
   router: Router = inject(Router)// Router service for navigation
 

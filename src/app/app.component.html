@@ -12,8 +12,14 @@
         @if(!isLoginComponent){
             <!-- If it's not the login component -->
             <button mat-raised-button (click)="navigateToLogin()">login</button>
+            <button mat-raised-button (click)="logout()">logout</button>
             <!-- Display the login button -->
         }
+    </div>
+    <div class="search-box">
+        <!--search box-->
+        <input [(ngModel)]="searchterm" placeholder="Search for User, Topic or Post" />
+        <button (click)="search()">Search</button>
     </div>
 </div>
 
@@ -21,10 +27,11 @@
     <!-- Container for the side navigation -->
     <mat-sidenav #MySideNav mode="side" position="start">
         <!-- Side navigation -->
-        <h1>Test From The Side</h1>
+        <h1>Navigation</h1>
+        <button mat-raised-button (click)="navigatetohomepage()">Home</button>
         <!-- Display a test message in the side navigation -->
     </mat-sidenav>
-      
+    
     <mat-sidenav-content>
         <!-- Content area -->
         <router-outlet></router-outlet>

@@ -20,6 +20,7 @@
   left: 0;
   background-color: rgba(253, 253, 253, 0);
 }
+
 .top-activate-login{
   position: absolute;
   right: 45px;
@@ -27,4 +28,9 @@
 
 .sidenav{
   height: calc(100% - 60px);
+}
+
+.search-box{
+  position: absolute;
+  left: 50px;
 }
