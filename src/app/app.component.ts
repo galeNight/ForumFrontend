@@ -9,6 +9,8 @@ import { HttpClient, HttpErrorResponse  } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Post} from './Models/Post';
+import { RecentPostsService } from './Services/recentpostsservice.Service';
+
 
 @Component({
   selector: 'app-root',
@@ -31,7 +33,7 @@ export class AppComponent {
   isLoginComponent : boolean = false // Flag to indicate if the current component is the login component
   searchterm: string = ""; // Search term to be used in the search bar
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private recentPostsService: RecentPostsService) {
     // Subscribe to router events
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -56,6 +58,23 @@ export class AppComponent {
   }
   // search method
   search():void{
+    console.log('Search for:', this.searchterm);
+    if (this.searchterm.trim() === '') {
+      return;
+    }
+
+    this.http.get<Post[]>('/api/search', { params: { term: this.searchterm } })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error occurred while searching', error);
+          return throwError('Error occurred while searching');
+        })
+      )
+      .subscribe((data: Post[]) => {
+        console.log('Search results:', data);
+        this.recentPostsService.updateRecentPosts(data);
+        this.searchterm = ''; // Clear the search term after search
+      });
   }
   //method to navigate to the homepage
   navigatetohomepage(): void{

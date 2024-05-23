@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { PostService } from '../../Services/post.service';
+import { RecentPostsService } from '../../Services/recentpostsservice.Service';
 import { Post } from '../../Models/Post';
 import { Router } from '@angular/router';
 
@@ -17,6 +18,10 @@ export class HomePageComponent {
   recentPosts: Post[] = []// list to store recent posts // in typescript array symbol is a list 
   postService : PostService = inject(PostService)// Service for fetching posts
   router: Router = inject(Router)// Router service for navigation
+
+  constructor(
+    private recentPostsService: RecentPostsService
+  ) { }
 
   ngOnInit(): void {
     // Fetch recent posts when component initializes
