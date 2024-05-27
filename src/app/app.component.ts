@@ -10,7 +10,24 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Post} from './Models/Post';
 import { RecentPostsService } from './Services/recentpostsservice.Service';
+import { query } from '@angular/animations';
 
+interface SearchResult{
+  title:string;
+  content:string;
+  type:string;
+}
+
+function convertSearchResultToPost (result: SearchResult): Post {
+  return {
+    postID: 0, // Assign a dummy value or map from SearchResult if available
+    title: result.title,
+    postContent: result.content,
+    userID: 0, // Assign a dummy value or map from SearchResult if available
+    topicID: 0, // Assign a dummy value or map from SearchResult if available
+    postCreated: new Date()  // Assign current date or map from SearchResult if available
+  };
+}
 
 @Component({
   selector: 'app-root',
@@ -32,6 +49,7 @@ export class AppComponent {
   router: Router = inject(Router) // Injecting Router service
   isLoginComponent : boolean = false // Flag to indicate if the current component is the login component
   searchterm: string = ""; // Search term to be used in the search bar
+  searchResults: SearchResult[] = []; // Array to store search results
 
   constructor(private http: HttpClient,private recentPostsService: RecentPostsService) {
     // Subscribe to router events
@@ -58,23 +76,24 @@ export class AppComponent {
   }
   // search method
   search():void{
-    console.log('Search for:', this.searchterm);
-    if (this.searchterm.trim() === '') {
+    console.log("Search for:",this.searchterm);
+    if(this.searchterm.trim() ===""){
       return;
     }
-
-    this.http.get<Post[]>('/api/search', { params: { term: this.searchterm } })
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          console.error('Error occurred while searching', error);
-          return throwError('Error occurred while searching');
-        })
-      )
-      .subscribe((data: Post[]) => {
-        console.log('Search results:', data);
-        this.recentPostsService.updateRecentPosts(data);
-        this.searchterm = ''; // Clear the search term after search
-      });
+    this.http.get<SearchResult[]>('/api/search',{params:{query:this.searchterm}})
+    .pipe(
+      catchError((error:HttpErrorResponse)=>{
+        console.error('Error occurred while searchig',error);
+        return throwError('Error occurred while searching');
+      })
+    )
+    .subscribe((data:SearchResult[])=>{
+      console.log('Search results:',data);
+      this.searchResults = data;
+      const posts: Post[] = data.filter(result => result.type === 'post').map(convertSearchResultToPost);
+      this.recentPostsService.updateRecentPosts(posts);
+      this.searchterm = "";
+    });
   }
   //method to navigate to the homepage
   navigatetohomepage(): void{
