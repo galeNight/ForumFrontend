@@ -18,17 +18,6 @@ interface SearchResult{
   type:string;
 }
 
-function convertSearchResultToPost (result: SearchResult): Post {
-  return {
-    postID: 0, // Assign a dummy value or map from SearchResult if available
-    title: result.title,
-    postContent: result.content,
-    userID: 0, // Assign a dummy value or map from SearchResult if available
-    topicID: 0, // Assign a dummy value or map from SearchResult if available
-    postCreated: new Date()  // Assign current date or map from SearchResult if available
-  };
-}
-
 @Component({
   selector: 'app-root',
   standalone: true, // Not a child component
@@ -90,7 +79,7 @@ export class AppComponent {
     .subscribe((data:SearchResult[])=>{
       console.log('Search results:',data);
       this.searchResults = data;
-      const posts: Post[] = data.filter(result => result.type === 'post').map(convertSearchResultToPost);
+      const posts: Post[] = data.filter(result => result.type === 'post').map(this.convertSearchResultToPost);
       this.recentPostsService.updateRecentPosts(posts);
       this.searchterm = "";
     });
@@ -98,5 +87,15 @@ export class AppComponent {
   //method to navigate to the homepage
   navigatetohomepage(): void{
     this.router.navigate(['/']);
+  }
+  private convertSearchResultToPost(result: SearchResult): Post {
+    return {
+      postID:0, // Dummy value
+      title:result.title,
+      postContent:result.content,
+      userID:0, // Dummy value
+      topicID:0, // Dummy value
+      postCreated:new Date()// Current date
+    };
   }
 }
