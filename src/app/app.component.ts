@@ -36,8 +36,16 @@ export class AppComponent {
   title = 'Forum'; // Title of the application
   router: Router = inject(Router) // Injecting Router service
   isLoginComponent : boolean = false // Flag to indicate if the current component is the login component
-  searchterm: string = ""; // Search term to be used in the search bar
-  searchResults: SearchResult[] = []; // Array to store search results
+  searchResults: SearchResult[] = [] // Array to store search results 
+  recentPosts: Post[] = [] // Array to store recent posts
+  searchterm: string = "" // Variable to store the search term
+
+  ngOnInit():void{
+    // Subscribe to the recentPosts observable to get the latest posts
+    this.recentPostsService.recentPosts$.subscribe(posts => {
+      this.recentPosts = posts;
+    })
+  }
 
   constructor(private http: HttpClient, private recentPostsService: RecentPostsService) {
     // Subscribe to router events
@@ -47,6 +55,7 @@ export class AppComponent {
         this.isLoginComponent = event.url.includes('/login');
       }
     });
+
   }
     // Method to navigate to the login page
     navigateToLogin() {
@@ -67,16 +76,18 @@ export class AppComponent {
     if (this.searchterm.trim() ===""){
       return;
     }
-    this.http.get<SearchResult[]>('api/search',{params: {query: this.searchterm}})
-    .pipe(
-      catchError(this.handleError)
-    )
-    .subscribe((data:SearchResult[])=>{
-      this.searchResults = data;
-      const posts = data.filter(result => result.type ==='post').map(this.convertSearchResultToPost);
-      this.recentPostsService.updateRecentPosts(posts);
-      this.searchterm = "";
-    })
+    // Filter the recentPosts array to find matches based on the search term
+    this.searchResults = this.recentPosts.filter(post =>
+      post.title.includes(this.searchterm) || post.postContent.includes(this.searchterm)
+    ).map(post => ({
+      title: post.title,
+      content: post.postContent,
+      type: 'post'
+    }));
+    //Update recent post service with the search results
+    const posts = this.searchResults.map(this.convertSearchResultToPost);
+    this.recentPostsService.updateRecentPosts(posts);
+    this.searchterm = "";
    }
   //method to navigate to the homepage
   navigatetohomepage(): void{
@@ -84,29 +95,12 @@ export class AppComponent {
   }
   private convertSearchResultToPost(result: SearchResult): Post {
     return {
-      postID:0, // Dummy value
-      title:result.title,
-      postContent:result.content,
-      userID:0, // Dummy value
-      topicID:0, // Dummy value
-      postCreated:new Date()// Current date
+      postID: 0,
+      title: result.title,
+      postContent: result.content,
+      userID: 0,
+      topicID: 0,
+      postCreated: new Date()
     };
-  }
-  private handleError(error: HttpErrorResponse) {
-    console.error('Error occurred while searching', error);
-    if (error.error instanceof ErrorEvent) {
-      // Client-side error
-      console.error('Client-side error:', error.error.message);
-    } else {
-      // Server-side error
-      console.error(`Server-side error: ${error.status} - ${error.message}`);
-      if (error.status === 200 && typeof error.error === 'string') {
-        // Possible HTML response when expecting JSON
-        console.error('Received HTML instead of JSON');
-        // Optionally display a user-friendly message
-        alert('An error occurred: the server returned an unexpected response.');
-      }
-    }
-    return throwError('Error occurred while searching');
   }
 }
