@@ -10,7 +10,6 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Post} from './Models/Post';
 import { RecentPostsService } from './Services/recentpostsservice.Service';
-import { query } from '@angular/animations';
 
 interface SearchResult{
   title:string;
@@ -40,7 +39,7 @@ export class AppComponent {
   searchterm: string = ""; // Search term to be used in the search bar
   searchResults: SearchResult[] = []; // Array to store search results
 
-  constructor(private http: HttpClient,private recentPostsService: RecentPostsService) {
+  constructor(private http: HttpClient, private recentPostsService: RecentPostsService) {
     // Subscribe to router events
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {

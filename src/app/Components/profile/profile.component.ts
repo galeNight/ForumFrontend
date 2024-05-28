@@ -10,7 +10,6 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog'
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import { jwtDecode } from "jwt-decode";
 
 import { EditWindowComponent } from './edit-window/edit-window.component';
 import { AuthService } from '../../Services/auth.service';
