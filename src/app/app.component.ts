@@ -64,25 +64,20 @@ export class AppComponent {
   }
   // search method
   search():void{
-    console.log("Search for:",this.searchterm);
-    if(this.searchterm.trim() ===""){
+    if (this.searchterm.trim() ===""){
       return;
     }
-    this.http.get<SearchResult[]>('/api/search',{params:{query:this.searchterm}})
+    this.http.get<SearchResult[]>('api/search',{params: {query: this.searchterm}})
     .pipe(
-      catchError((error:HttpErrorResponse)=>{
-        console.error('Error occurred while searchig',error);
-        return throwError('Error occurred while searching');
-      })
+      catchError(this.handleError)
     )
     .subscribe((data:SearchResult[])=>{
-      console.log('Search results:',data);
       this.searchResults = data;
-      const posts: Post[] = data.filter(result => result.type === 'post').map(this.convertSearchResultToPost);
+      const posts = data.filter(result => result.type ==='post').map(this.convertSearchResultToPost);
       this.recentPostsService.updateRecentPosts(posts);
       this.searchterm = "";
-    });
-  }
+    })
+   }
   //method to navigate to the homepage
   navigatetohomepage(): void{
     this.router.navigate(['/']);
@@ -96,5 +91,22 @@ export class AppComponent {
       topicID:0, // Dummy value
       postCreated:new Date()// Current date
     };
+  }
+  private handleError(error: HttpErrorResponse) {
+    console.error('Error occurred while searching', error);
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      console.error('Client-side error:', error.error.message);
+    } else {
+      // Server-side error
+      console.error(`Server-side error: ${error.status} - ${error.message}`);
+      if (error.status === 200 && typeof error.error === 'string') {
+        // Possible HTML response when expecting JSON
+        console.error('Received HTML instead of JSON');
+        // Optionally display a user-friendly message
+        alert('An error occurred: the server returned an unexpected response.');
+      }
+    }
+    return throwError('Error occurred while searching');
   }
 }
