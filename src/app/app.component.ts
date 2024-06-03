@@ -12,6 +12,7 @@ import { Post} from './Models/Post';
 import { RecentPostsService } from './Services/recentpostsservice.Service';
 
 interface SearchResult{
+  id:number;
   title:string;
   content:string;
   type:string;
@@ -41,58 +42,59 @@ export class AppComponent {
   searchterm: string = "" // Variable to store the search term
 
   ngOnInit():void{
-    // Subscribe to the recentPosts observable to get the latest posts
-    this.recentPostsService.recentPosts$.subscribe(posts => {
+    this.recentPostsService.recentPosts$.subscribe(posts => { // Subscribe to the recentPosts observable to get the latest posts
       this.recentPosts = posts;
     })
   }
 
-  constructor(private http: HttpClient, private recentPostsService: RecentPostsService) {
-    // Subscribe to router events
-    this.router.events.subscribe(event => {
+  constructor(private recentPostsService: RecentPostsService) {
+    this.router.events.subscribe(event => {// Subscribe to router events
       if (event instanceof NavigationEnd) {
-        // When the router detects navigation, check if the current route is the login component
-        this.isLoginComponent = event.url.includes('/login');
+        this.isLoginComponent = event.url.includes('/login');// When the router detects navigation, check if the current route is the login component
       }
     });
 
   }
-    // Method to navigate to the login page
-    navigateToLogin() {
+    navigateToLogin() { // Method to navigate to the login page
       this.router.navigate(['/login']); // Navigate to '/login' route
       this.isLoginComponent = true; // Set flag to indicate that the login component is active
     }
-  //methode to handle logout
-  logout(): void{
-    // Clear the authentication token 
-    localStorage.removeItem('auth_token');
-    // Navigate to the login page after logout
-    this.router.navigate(['/login']);
-    //set flag to indicate that the login component is active
-    this.isLoginComponent = true;
+
+  logout(): void{ //methode to handle logout
+    localStorage.removeItem('auth_token'); // Clear the authentication token 
+    this.router.navigate(['/login']);// Navigate to the login page after logout
+    this.isLoginComponent = true; //set flag to indicate that the login component is active
   }
-  // search method
-  search():void{
+
+  search():void{// search method
     if (this.searchterm.trim() ===""){
       return;
     }
-    // Filter the recentPosts array to find matches based on the search term
-    this.searchResults = this.recentPosts.filter(post =>
+    this.searchResults = this.recentPosts.filter(post => // Filter the recentPosts array to find matches based on the search term
       post.title.includes(this.searchterm) || post.postContent.includes(this.searchterm)
     ).map(post => ({
+      id: post.postID,
       title: post.title,
       content: post.postContent,
       type: 'post'
     }));
-    //Update recent post service with the search results
-    const posts = this.searchResults.map(this.convertSearchResultToPost);
+    const posts = this.searchResults.map(this.convertSearchResultToPost);//Update recent post service with the search results
     this.recentPostsService.updateRecentPosts(posts);
     this.searchterm = "";
    }
-  //method to navigate to the homepage
-  navigatetohomepage(): void{
+
+  navigatetohomepage(): void{//method to navigate to the homepage
     this.router.navigate(['/']);
   }
+
+  navigateToPost(postID: number): void{//method to navigate to a specific post
+    this.router.navigate(['/post', postID]);
+  }
+
+  SearchResult(result:SearchResult):void{
+    this.navigateToPost(result.id)
+  }
+  
   private convertSearchResultToPost(result: SearchResult): Post {
     return {
       postID: 0,
